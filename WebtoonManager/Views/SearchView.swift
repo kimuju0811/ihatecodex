@@ -11,10 +11,11 @@ struct SearchView: View {
     }
 
     var body: some View {
-        VStack {
-            TextField("검색", text: $searchText)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding([.horizontal])
+        NavigationStack {
+            VStack {
+                TextField("검색", text: $searchText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding([.horizontal])
 
             Picker("정렬", selection: $sortOption) {
                 Text("평가 순").tag(0)
@@ -24,22 +25,42 @@ struct SearchView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding([.horizontal])
 
-            List(filtered) { webtoon in
-                HStack {
-                    Rectangle()
-                        .fill(Color.gray)
-                        .frame(width: 70, height: 100)
-                    VStack(alignment: .leading) {
-                        Text(webtoon.title).font(.headline)
-                        Text(webtoon.writer).foregroundColor(.secondary)
-                        Text(webtoon.rating.rawValue)
-                        Text(webtoon.status.rawValue)
+                List(filtered) { webtoon in
+                    NavigationLink(destination: WebtoonDetailView(store: store, webtoon: webtoon)) {
+                        HStack {
+                            AsyncImage(url: URL(string: webtoon.thumbnailURL)) { phase in
+                                switch phase {
+                                case .success(let image):
+                                    image.resizable().scaledToFit().frame(width: 70, height: 100)
+                                default:
+                                    Rectangle().fill(Color.gray).frame(width: 70, height: 100)
+                                }
+                            }
+                            VStack(alignment: .leading) {
+                                Text(webtoon.title).font(.headline)
+                                Text(webtoon.writer).foregroundColor(.secondary)
+                                Text(webtoon.rating.rawValue)
+                                Text(webtoon.status.rawValue)
+                            }
+                        }
                     }
                 }
             }
+            .onChange(of: sortOption) { _ in
+                sort()
+            }
+            .navigationTitle("웹툰 검색")
         }
-        .onChange(of: sortOption) { _ in
-            // Sorting logic placeholder
+    }
+
+    private func sort() {
+        switch sortOption {
+        case 0:
+            store.webtoons.sort { $0.rating.rawValue > $1.rating.rawValue }
+        case 1:
+            store.webtoons.sort { $0.title < $1.title }
+        default:
+            break
         }
     }
 }

@@ -15,6 +15,11 @@ class WebtoonStore: ObservableObject {
         webtoons.append(webtoon)
     }
 
+    func update(_ webtoon: Webtoon) {
+        guard let index = webtoons.firstIndex(where: { $0.id == webtoon.id }) else { return }
+        webtoons[index] = webtoon
+    }
+
     func startAutoUpdate() {
         timer?.invalidate()
         guard autoUpdate else { return }

@@ -12,6 +12,7 @@ struct AddWebtoonView: View {
     @State private var episodes: Int = 0
     @State private var lastRead: Int = 0
     @State private var review: String = ""
+    @State private var thumbnailURL: String = ""
 
     var body: some View {
         Form {
@@ -20,6 +21,7 @@ struct AddWebtoonView: View {
                 TextField("작가", text: $writer)
                 TextField("스튜디오", text: $studio)
                 TextField("카테고리", text: $category)
+                TextField("썸네일 URL", text: $thumbnailURL)
                 Picker("연재 상태", selection: $status) {
                     ForEach(WebtoonStatus.allCases) { Text($0.rawValue).tag($0) }
                 }
@@ -39,7 +41,7 @@ struct AddWebtoonView: View {
                 TextEditor(text: $review)
             }
             Button("저장") {
-                let new = Webtoon(id: UUID(), title: title, writer: writer, studio: studio, category: category, status: status, rating: rating, episodes: episodes, lastRead: lastRead, review: review)
+                let new = Webtoon(title: title, writer: writer, studio: studio, category: category, status: status, rating: rating, episodes: episodes, lastRead: lastRead, review: review, thumbnailURL: thumbnailURL)
                 store.add(new)
                 clear()
             }
@@ -57,6 +59,7 @@ struct AddWebtoonView: View {
         episodes = 0
         lastRead = 0
         review = ""
+        thumbnailURL = ""
     }
 }
 

@@ -17,8 +17,8 @@ enum WebtoonRating: String, CaseIterable, Identifiable, Codable {
     var id: String { rawValue }
 }
 
-struct Webtoon: Identifiable, Codable {
-    let id: UUID
+struct Webtoon: Identifiable, Codable, Equatable {
+    var id: UUID = UUID()
     var title: String
     var writer: String
     var studio: String
@@ -28,4 +28,5 @@ struct Webtoon: Identifiable, Codable {
     var episodes: Int
     var lastRead: Int
     var review: String
+    var thumbnailURL: String
 }
