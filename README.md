@@ -11,3 +11,4 @@ Create a new iOS App project in Xcode (iOS 17 or later) and replace the template
 - Basic data model for storing webtoon info including thumbnail URL.
 - Placeholder automatic API update toggle in Settings.
 - Home page displays `AppLogo` image scaled to 390pt width. Add your own 2048x2048 image named `AppLogo` in Assets.xcassets.
+- App remembers the last selected tab and saved webtoons across launches.

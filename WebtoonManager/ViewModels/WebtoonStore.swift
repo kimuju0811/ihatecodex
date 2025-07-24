@@ -2,12 +2,26 @@ import Foundation
 import Combine
 
 class WebtoonStore: ObservableObject {
-    @Published var webtoons: [Webtoon] = []
-    @Published var autoUpdate: Bool = true
+    @Published var webtoons: [Webtoon] = [] {
+        didSet { save() }
+    }
+    @Published var autoUpdate: Bool = true {
+        didSet { save(); startAutoUpdate() }
+    }
 
     private var timer: Timer?
+    private let saveURL: URL = {
+        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return dir.appendingPathComponent("webtoons.json")
+    }()
+
+    private struct SavedData: Codable {
+        var webtoons: [Webtoon]
+        var autoUpdate: Bool
+    }
 
     init() {
+        load()
         startAutoUpdate()
     }
 
@@ -37,5 +51,19 @@ class WebtoonStore: ObservableObject {
     func toggleAutoUpdate(_ enabled: Bool) {
         autoUpdate = enabled
         startAutoUpdate()
+    }
+
+    private func load() {
+        guard let data = try? Data(contentsOf: saveURL),
+              let saved = try? JSONDecoder().decode(SavedData.self, from: data) else { return }
+        webtoons = saved.webtoons
+        autoUpdate = saved.autoUpdate
+    }
+
+    private func save() {
+        let saved = SavedData(webtoons: webtoons, autoUpdate: autoUpdate)
+        if let data = try? JSONEncoder().encode(saved) {
+            try? data.write(to: saveURL)
+        }
     }
 }
