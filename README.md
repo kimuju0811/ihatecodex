@@ -4,7 +4,7 @@ A simple SwiftUI app skeleton for managing webtoons.
 
 ## Building
 Create a new iOS App project in Xcode (iOS 17 or later) and replace the template's source files with the contents of the `WebtoonManager` folder. Then build the `WebtoonManagerApp` target.
-Copy `WebtoonManager/Info.plist` into your project or make sure your own Info.plist includes `NSPhotoLibraryUsageDescription`, `NSPhotoLibraryAddUsageDescription`, and `NSAppTransportSecurity` with `NSAllowsArbitraryLoads` so the app can access the photo library and fetch web data.
+Copy `WebtoonManager/Info.plist` into your project or make sure your own Info.plist includes `NSPhotoLibraryUsageDescription`, `NSPhotoLibraryAddUsageDescription`, and `NSAppTransportSecurity` with `NSAllowsArbitraryLoads` so the app can access the photo library and fetch web data. If you import this plist file, replace the default one referenced by your target's **Info.plist File** setting and remove any duplicate entry from *Copy Bundle Resources* to avoid build errors about multiple Info.plist files.
 
 ## Features
 - Four tabs: Home, Search, Add Webtoon, Settings.
