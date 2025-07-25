@@ -2,7 +2,6 @@ import SwiftUI
 
 struct CategoryManagementView: View {
     @ObservedObject var store: WebtoonStore
-    @Environment(\.dismiss) var dismiss
     @State private var editMode: EditMode = .inactive
 
     var body: some View {
@@ -40,9 +39,6 @@ struct CategoryManagementView: View {
         }
         .navigationTitle("카테고리 관리")
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("뒤로") { dismiss() }
-            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 EditButton()
             }

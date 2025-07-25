@@ -21,7 +21,7 @@ struct HomeView: View {
 
             Spacer()
         }
-        .background(Color.white)
+        .background(Color(.systemBackground))
     }
 }
 
