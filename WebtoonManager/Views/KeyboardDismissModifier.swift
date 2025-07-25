@@ -13,6 +13,8 @@ private struct DismissGestureView: UIViewRepresentable {
         let view = UIView(frame: .zero)
         let recognizer = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.tap))
         recognizer.cancelsTouchesInView = false
+        recognizer.delaysTouchesBegan = false
+        recognizer.delaysTouchesEnded = false
         view.addGestureRecognizer(recognizer)
         return view
     }

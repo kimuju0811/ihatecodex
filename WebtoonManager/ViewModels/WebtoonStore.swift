@@ -179,6 +179,8 @@ class WebtoonStore: ObservableObject {
             return .light
         case "dark":
             return .dark
+        case "pink":
+            return .light
         default:
             return nil
         }
@@ -190,6 +192,8 @@ class WebtoonStore: ObservableObject {
             return Color(red: 0.6, green: 0.5, blue: 0.4)
         case "poster":
             return .orange
+        case "pink":
+            return .pink
         default:
             return .accentColor
         }

@@ -20,6 +20,7 @@ struct SettingsView: View {
                     Text("다크").tag("dark")
                     Text("세피아").tag("sepia")
                     Text("포스터 뷰").tag("poster")
+                    Text("핑크").tag("pink")
                 }
 
                 NavigationLink("카테고리 관리") {
@@ -28,6 +29,7 @@ struct SettingsView: View {
             }
             .navigationTitle("기타")
         }
+        .tint(store.tintColor)
     }
 }
 

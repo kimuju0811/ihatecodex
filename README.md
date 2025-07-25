@@ -16,7 +16,7 @@ Copy `WebtoonManager/Info.plist` into your project or make sure your own Info.pl
 - Edit or delete saved webtoons in the Search tab via swipe actions. Sorting options include rating, title or most recent click.
 - Add multiple writers and genres, numeric episode fields and local image selection when creating or editing webtoons.
 - Manage global writer, studio and genre lists under Settings → 카테고리 관리.
-- Choose between light, dark, sepia or poster themes in Settings; the selection applies immediately.
+- Choose between light, dark, sepia, poster or pink themes in Settings; the selection applies immediately.
 - Saved categories, writers and studios can be removed using the - button while editing the list.
 - The first launch requests photo library permission and asks whether to allow
   network access for automatic updates.
