@@ -12,6 +12,10 @@ struct HomeView: View {
                 .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                 .padding()
 
+            Text("WebOrg_v0.1")
+                .font(.caption)
+                .foregroundColor(.secondary)
+
             TextField("검색", text: $searchText)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding([.horizontal])
