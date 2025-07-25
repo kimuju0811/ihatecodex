@@ -119,8 +119,8 @@ struct AddWebtoonView: View {
             Button("저장") {
                 let epi = Int(episodes) ?? 0
                 let last = min(Int(lastRead) ?? 0, epi)
-                let new = Webtoon(id: existing?.id ?? UUID(), title: title, writers: writers.filter{ !$0.isEmpty }, studio: studio, categories: categories.filter{ !$0.isEmpty }, status: status, rating: rating, episodes: epi, lastRead: last, review: review, thumbnailURL: thumbnailURL, thumbnailData: imageData)
-                if existing != nil {
+                let new = Webtoon(id: editingId ?? existing?.id ?? UUID(), title: title, writers: writers.filter { !$0.isEmpty }, studio: studio, categories: categories.filter { !$0.isEmpty }, status: status, rating: rating, episodes: epi, lastRead: last, review: review, thumbnailURL: thumbnailURL, thumbnailData: imageData)
+                if editingId != nil || existing != nil {
                     store.update(new)
                 } else {
                     store.add(new)

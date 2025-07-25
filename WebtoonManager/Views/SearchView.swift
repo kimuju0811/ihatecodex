@@ -20,7 +20,7 @@ struct SearchView: View {
                     TextField("검색", text: $searchText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     Spacer()
-                    Button("편집") { isEditing.toggle() }
+                    Button(isEditing ? "확인" : "편집") { isEditing.toggle() }
                         .font(.footnote)
                         .foregroundColor(.gray)
                 }
