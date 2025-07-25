@@ -22,6 +22,8 @@ struct ContentView: View {
                 .tabItem { Label("기타", systemImage: "gear") }
                 .tag(3)
         }
+        .preferredColorScheme(store.colorScheme)
+        .tint(store.tintColor)
     }
 }
 

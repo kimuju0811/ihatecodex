@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import SwiftUI
 
 class WebtoonStore: ObservableObject {
     @Published var webtoons: [Webtoon] = [] {
@@ -11,6 +12,7 @@ class WebtoonStore: ObservableObject {
     @Published var categories: [String] = [] { didSet { save() } }
     @Published var writers: [String] = [] { didSet { save() } }
     @Published var studios: [String] = [] { didSet { save() } }
+    @Published var theme: String = "system" { didSet { save() } }
 
     private var timer: Timer?
     private let saveURL: URL = {
@@ -24,6 +26,7 @@ class WebtoonStore: ObservableObject {
         var categories: [String]
         var writers: [String]
         var studios: [String]
+        var theme: String
     }
 
     init() {
@@ -147,12 +150,39 @@ class WebtoonStore: ObservableObject {
         categories = saved.categories
         writers = saved.writers
         studios = saved.studios
+        theme = saved.theme
     }
 
     private func save() {
-        let saved = SavedData(webtoons: webtoons, autoUpdate: autoUpdate, categories: categories, writers: writers, studios: studios)
+        let saved = SavedData(webtoons: webtoons, autoUpdate: autoUpdate, categories: categories, writers: writers, studios: studios, theme: theme)
         if let data = try? JSONEncoder().encode(saved) {
             try? data.write(to: saveURL)
+        }
+    }
+
+    func changeTheme(_ value: String) {
+        theme = value
+    }
+
+    var colorScheme: ColorScheme? {
+        switch theme {
+        case "light":
+            return .light
+        case "dark":
+            return .dark
+        default:
+            return nil
+        }
+    }
+
+    var tintColor: Color {
+        switch theme {
+        case "sepia":
+            return Color(red: 0.6, green: 0.5, blue: 0.4)
+        case "poster":
+            return .orange
+        default:
+            return .accentColor
         }
     }
 }

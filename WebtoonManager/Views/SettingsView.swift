@@ -11,6 +11,17 @@ struct SettingsView: View {
                     set: { store.toggleAutoUpdate($0) }
                 ))
 
+                Picker("테마", selection: Binding(
+                    get: { store.theme },
+                    set: { store.changeTheme($0) }
+                )) {
+                    Text("시스템").tag("system")
+                    Text("라이트").tag("light")
+                    Text("다크").tag("dark")
+                    Text("세피아").tag("sepia")
+                    Text("포스터 뷰").tag("poster")
+                }
+
                 NavigationLink("카테고리 관리") {
                     CategoryManagementView(store: store)
                 }

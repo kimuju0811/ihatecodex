@@ -6,6 +6,7 @@ struct SearchView: View {
     @State private var sortOption = 0
     @State private var editingWebtoon: Webtoon?
     @State private var isEditing = false
+    @State private var editMode: EditMode = .inactive
 
     var filtered: [Webtoon] {
         if searchText.isEmpty { return store.webtoons }
@@ -24,6 +25,7 @@ struct SearchView: View {
                         .foregroundColor(.gray)
                 }
                 .padding([.horizontal])
+                .onChange(of: isEditing) { editMode = $0 ? .active : .inactive }
 
             Picker("정렬", selection: $sortOption) {
                 Text("평가 순").tag(0)
@@ -33,8 +35,9 @@ struct SearchView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding([.horizontal])
 
-                List(filtered) { webtoon in
-                    NavigationLink(destination: WebtoonDetailView(store: store, webtoon: webtoon)) {
+                List {
+                    ForEach(filtered) { webtoon in
+                        NavigationLink(destination: WebtoonDetailView(store: store, webtoon: webtoon)) {
                         HStack {
                             if let data = webtoon.thumbnailData, let ui = UIImage(data: data) {
                                 Image(uiImage: ui).resizable().scaledToFit().frame(width: 70, height: 100)
@@ -73,7 +76,12 @@ struct SearchView: View {
                     .swipeActions(edge: .leading) {
                         Button { editingWebtoon = webtoon } label: { Label("편집", systemImage: "pencil") }
                     }
+                    }
+                    .onDelete { offsets in
+                        offsets.map { filtered[$0] }.forEach(delete)
+                    }
                 }
+                .environment(\.editMode, $editMode)
             }
             .onChange(of: sortOption) { _ in
                 sort()
