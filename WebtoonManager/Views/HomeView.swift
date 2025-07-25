@@ -9,7 +9,7 @@ struct HomeView: View {
             Image("AppLogo")
                 .resizable()
                 .scaledToFit()
-                .frame(maxWidth: 390)
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                 .padding()
 
             TextField("검색", text: $searchText)
