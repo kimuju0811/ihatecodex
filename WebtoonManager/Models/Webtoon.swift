@@ -20,13 +20,14 @@ enum WebtoonRating: String, CaseIterable, Identifiable, Codable {
 struct Webtoon: Identifiable, Codable, Equatable {
     var id: UUID = UUID()
     var title: String
-    var writer: String
+    var writers: [String]
     var studio: String
-    var category: String
+    var categories: [String]
     var status: WebtoonStatus
     var rating: WebtoonRating
     var episodes: Int
     var lastRead: Int
     var review: String
     var thumbnailURL: String
+    var thumbnailData: Data?
 }

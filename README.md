@@ -12,3 +12,6 @@ Create a new iOS App project in Xcode (iOS 17 or later) and replace the template
 - Placeholder automatic API update toggle in Settings.
 - Home page displays `AppLogo` image scaled to 390pt width. Add your own 2048x2048 image named `AppLogo` in Assets.xcassets.
 - App remembers the last selected tab and saved webtoons across launches.
+- Edit or delete saved webtoons in the Search tab via swipe actions.
+- Add multiple writers and categories, numeric episode fields and local image selection when creating or editing webtoons.
+- Manage global writer, studio and category lists under Settings → 카테고리 관리.

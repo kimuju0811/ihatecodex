@@ -21,19 +21,23 @@ struct WebtoonDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                AsyncImage(url: URL(string: webtoon.thumbnailURL)) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image.resizable().scaledToFit().frame(maxWidth: .infinity)
-                    default:
-                        Rectangle().fill(Color.gray.opacity(0.3)).frame(height: 200)
+                if let data = webtoon.thumbnailData, let ui = UIImage(data: data) {
+                    Image(uiImage: ui).resizable().scaledToFit().frame(maxWidth: .infinity)
+                } else {
+                    AsyncImage(url: URL(string: webtoon.thumbnailURL)) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image.resizable().scaledToFit().frame(maxWidth: .infinity)
+                        default:
+                            Rectangle().fill(Color.gray.opacity(0.3)).frame(height: 200)
+                        }
                     }
                 }
 
                 Text(webtoon.title).font(.largeTitle).bold()
-                Text(webtoon.writer).foregroundColor(.secondary)
+                Text(webtoon.writers.joined(separator: ", ")).foregroundColor(.secondary)
                 progressBar
-                Text("카테고리: \(webtoon.category)")
+                Text("카테고리: \(webtoon.categories.joined(separator: ", "))")
                 Text("연재 상태: \(webtoon.status.rawValue)")
                 Text("평가: \(webtoon.rating.rawValue)")
                 TextEditor(text: $webtoon.review).frame(minHeight: 100)
@@ -81,5 +85,5 @@ struct WebtoonDetailView: View {
 }
 
 #Preview {
-    WebtoonDetailView(store: WebtoonStore(), webtoon: Webtoon(title: "Sample", writer: "Writer", studio: "Studio", category: "Category", status: .ongoing, rating: .average, episodes: 10, lastRead: 0, review: "", thumbnailURL: ""))
+    WebtoonDetailView(store: WebtoonStore(), webtoon: Webtoon(title: "Sample", writers: ["Writer"], studio: "Studio", categories: ["Category"], status: .ongoing, rating: .average, episodes: 10, lastRead: 0, review: "", thumbnailURL: "", thumbnailData: nil))
 }
