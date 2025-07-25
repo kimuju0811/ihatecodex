@@ -15,3 +15,5 @@ Create a new iOS App project in Xcode (iOS 17 or later) and replace the template
 - Edit or delete saved webtoons in the Search tab via swipe actions. Sorting options include rating, title or most recent click.
 - Add multiple writers and genres, numeric episode fields and local image selection when creating or editing webtoons.
 - Manage global writer, studio and genre lists under Settings → 카테고리 관리.
+- The first launch requests photo library permission and asks whether to allow
+  network access for automatic updates.
