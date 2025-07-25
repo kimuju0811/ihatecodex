@@ -83,6 +83,7 @@ struct SearchView: View {
                 }
                 .environment(\.editMode, $editMode)
             }
+            .dismissKeyboardOnTap()
             .onChange(of: sortOption) { _ in
                 sort()
             }
