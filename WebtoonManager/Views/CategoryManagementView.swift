@@ -37,6 +37,7 @@ struct CategoryManagementView: View {
                 Button("추가") { store.studios.append("") }
             }
         }
+        .dismissKeyboardOnTap()
         .navigationTitle("카테고리 관리")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {

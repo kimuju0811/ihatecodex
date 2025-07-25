@@ -50,6 +50,7 @@ struct WebtoonDetailView: View {
             }
             .padding()
         }
+        .dismissKeyboardOnTap()
         .navigationTitle(webtoon.title)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { store.touch(webtoon) }

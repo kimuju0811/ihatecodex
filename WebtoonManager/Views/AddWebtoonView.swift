@@ -134,6 +134,7 @@ struct AddWebtoonView: View {
                 dismiss()
             }
         }
+        .dismissKeyboardOnTap()
         .onAppear { loadFromEditing() }
         .onChange(of: store.editingWebtoon) { _ in loadFromEditing() }
     }
