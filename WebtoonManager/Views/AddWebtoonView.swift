@@ -6,6 +6,8 @@ struct AddWebtoonView: View {
     var existing: Webtoon?
     @Environment(\.dismiss) private var dismiss
 
+    @State private var editingId: UUID?
+
     @State private var title: String
     @State private var writers: [String]
     @State private var studio: String
@@ -33,6 +35,29 @@ struct AddWebtoonView: View {
         _review = State(initialValue: webtoon?.review ?? "")
         _thumbnailURL = State(initialValue: webtoon?.thumbnailURL ?? "")
         _imageData = State(initialValue: webtoon?.thumbnailData)
+        _editingId = State(initialValue: webtoon?.id)
+    }
+
+    private func loadFromEditing() {
+        let w = existing ?? store.editingWebtoon
+        guard editingId != w?.id else { return }
+        if let w {
+            title = w.title
+            writers = w.writers
+            studio = w.studio
+            categories = w.categories
+            status = w.status
+            rating = w.rating
+            episodes = String(w.episodes)
+            lastRead = String(w.lastRead)
+            review = w.review
+            thumbnailURL = w.thumbnailURL
+            imageData = w.thumbnailData
+            editingId = w.id
+        } else {
+            clear()
+            editingId = nil
+        }
     }
 
     var body: some View {
@@ -94,17 +119,23 @@ struct AddWebtoonView: View {
             Button("저장") {
                 let epi = Int(episodes) ?? 0
                 let last = min(Int(lastRead) ?? 0, epi)
-                let new = Webtoon(id: existing?.id ?? UUID(), title: title, writers: writers.filter{ !$0.isEmpty }, studio: studio, categories: categories.filter{ !$0.isEmpty }, status: status, rating: rating, episodes: epi, lastRead: last, review: review, thumbnailURL: thumbnailURL, thumbnailData: imageData)
-                if existing != nil {
+                let new = Webtoon(id: editingId ?? existing?.id ?? UUID(), title: title, writers: writers.filter { !$0.isEmpty }, studio: studio, categories: categories.filter { !$0.isEmpty }, status: status, rating: rating, episodes: epi, lastRead: last, review: review, thumbnailURL: thumbnailURL, thumbnailData: imageData)
+                if editingId != nil || existing != nil {
                     store.update(new)
                 } else {
                     store.add(new)
                 }
                 clear()
+                store.finishEditing()
                 dismiss()
             }
-            Button("취소") { dismiss() }
+            Button("취소") {
+                store.finishEditing()
+                dismiss()
+            }
         }
+        .onAppear { loadFromEditing() }
+        .onChange(of: store.editingWebtoon) { _ in loadFromEditing() }
     }
 
     private func clear() {

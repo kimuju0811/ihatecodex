@@ -11,7 +11,7 @@ Copy `WebtoonManager/Info.plist` into your project or make sure your own Info.pl
 - Search results lead to a detail view with a progress bar for reading status.
 - Basic data model for storing webtoon info including thumbnail URL.
 - Automatic API updates can run while the app is open when enabled in Settings.
-- Home page displays your own `AppLogo` image scaled to about 390pt width (add a square asset named `AppLogo`, recommended size 886×886 at 132 DPI).
+- Home page displays your own `AppLogo` image scaled to about 390pt width. Add any square asset named `AppLogo` and it will be resized automatically.
 - App remembers the last selected tab and saved webtoons across launches.
 - Edit or delete saved webtoons in the Search tab via swipe actions. Sorting options include rating, title or most recent click.
 - Add multiple writers and genres, numeric episode fields and local image selection when creating or editing webtoons.

@@ -20,7 +20,7 @@ struct SearchView: View {
                     TextField("검색", text: $searchText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     Spacer()
-                    Button("편집") { isEditing.toggle() }
+                    Button(isEditing ? "확인" : "편집") { isEditing.toggle() }
                         .font(.footnote)
                         .foregroundColor(.gray)
                 }
@@ -97,7 +97,7 @@ struct SearchView: View {
     private func sort() {
         switch sortOption {
         case 0:
-            store.webtoons.sort { $0.rating.rawValue > $1.rating.rawValue }
+            store.webtoons.sort { $0.rating.order > $1.rating.order }
         case 1:
             store.webtoons.sort { $0.title < $1.title }
         case 2:

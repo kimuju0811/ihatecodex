@@ -9,12 +9,21 @@ enum WebtoonStatus: String, CaseIterable, Identifiable, Codable {
 }
 
 enum WebtoonRating: String, CaseIterable, Identifiable, Codable {
-    case poor = "졸작"
-    case average = "보통"
-    case good = "수작"
     case great = "명작"
+    case good = "수작"
+    case average = "보통"
+    case poor = "졸작"
 
     var id: String { rawValue }
+
+    var order: Int {
+        switch self {
+        case .great: return 4
+        case .good: return 3
+        case .average: return 2
+        case .poor: return 1
+        }
+    }
 }
 
 struct Webtoon: Identifiable, Codable, Equatable {

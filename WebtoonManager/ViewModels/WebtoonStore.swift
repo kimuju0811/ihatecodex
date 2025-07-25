@@ -13,6 +13,7 @@ class WebtoonStore: ObservableObject {
     @Published var writers: [String] = [] { didSet { save() } }
     @Published var studios: [String] = [] { didSet { save() } }
     @Published var theme: String = "system" { didSet { save() } }
+    @Published var editingWebtoon: Webtoon? = nil
 
     private var timer: Timer?
     private let saveURL: URL = {
@@ -46,6 +47,14 @@ class WebtoonStore: ObservableObject {
         guard let index = webtoons.firstIndex(where: { $0.id == webtoon.id }) else { return }
         webtoons[index] = webtoon
         insertLists(from: webtoon)
+    }
+
+    func beginEditing(_ webtoon: Webtoon) {
+        editingWebtoon = webtoon
+    }
+
+    func finishEditing() {
+        editingWebtoon = nil
     }
 
     func touch(_ webtoon: Webtoon) {
