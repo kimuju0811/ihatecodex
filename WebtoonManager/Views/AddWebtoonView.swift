@@ -52,7 +52,7 @@ struct AddWebtoonView: View {
                 }
                 ForEach(categories.indices, id: \.self) { i in
                     HStack {
-                        TextField("카테고리", text: $categories[i])
+                        TextField("장르", text: $categories[i])
                             .onSubmit { if i == categories.count - 1 { categories.append("") } }
                         if categories.count > 1 {
                             Button(action: { categories.remove(at: i) }) {

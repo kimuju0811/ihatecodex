@@ -61,7 +61,7 @@ struct SearchView: View {
                                         .font(.subheadline)
                                 }
                                 if !webtoon.categories.isEmpty {
-                                    Text("카테고리: \(webtoon.categories.joined(separator: ", "))")
+                                    Text("장르: \(webtoon.categories.joined(separator: ", "))")
                                         .font(.subheadline)
                                 }
                             }

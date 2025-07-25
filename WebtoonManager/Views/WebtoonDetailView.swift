@@ -37,7 +37,7 @@ struct WebtoonDetailView: View {
                 Text(webtoon.title).font(.largeTitle).bold()
                 Text(webtoon.writers.joined(separator: ", ")).foregroundColor(.secondary)
                 progressBar
-                Text("카테고리: \(webtoon.categories.joined(separator: ", "))")
+                Text("장르: \(webtoon.categories.joined(separator: ", "))")
                 Text("연재 상태: \(webtoon.status.rawValue)")
                 Text("평가: \(webtoon.rating.rawValue)")
                 TextEditor(text: $webtoon.review).frame(minHeight: 100)

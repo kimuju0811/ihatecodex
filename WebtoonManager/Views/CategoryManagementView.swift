@@ -6,9 +6,9 @@ struct CategoryManagementView: View {
 
     var body: some View {
         List {
-            Section(header: Text("카테고리")) {
+            Section(header: Text("장르")) {
                 ForEach(store.categories.indices, id: \.self) { i in
-                    TextField("카테고리", text: Binding(
+                    TextField("장르", text: Binding(
                         get: { store.categories[i] },
                         set: { store.renameCategory(at: i, new: $0) }
                     ))
