@@ -40,7 +40,11 @@ struct CategoryManagementView: View {
         .navigationTitle("카테고리 관리")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                EditButton()
+                Button(editMode == .active ? "확인" : "편집") {
+                    withAnimation {
+                        editMode = editMode == .active ? .inactive : .active
+                    }
+                }
             }
         }
         .environment(\.editMode, $editMode)
