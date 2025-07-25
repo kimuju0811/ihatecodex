@@ -2,10 +2,27 @@ import SwiftUI
 
 struct KeyboardDismissModifier: ViewModifier {
     func body(content: Content) -> some View {
-        content
-            .simultaneousGesture(TapGesture().onEnded {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            })
+        content.background(DismissGestureView())
+    }
+}
+
+private struct DismissGestureView: UIViewRepresentable {
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView(frame: .zero)
+        let recognizer = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.tap))
+        recognizer.cancelsTouchesInView = false
+        view.addGestureRecognizer(recognizer)
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
+
+    class Coordinator {
+        @objc func tap() {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     }
 }
 
