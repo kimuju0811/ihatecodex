@@ -52,8 +52,18 @@ struct SearchView: View {
                                 Text(webtoon.title).font(.headline)
                                 Text(webtoon.writers.joined(separator: ", "))
                                     .foregroundColor(.secondary)
-                                Text(webtoon.rating.rawValue)
-                                Text(webtoon.status.rawValue)
+                                Text("평가: \(webtoon.rating.rawValue)")
+                                    .font(.subheadline)
+                                Text("연재 상태: \(webtoon.status.rawValue)")
+                                    .font(.subheadline)
+                                if !webtoon.studio.isEmpty {
+                                    Text("스튜디오: \(webtoon.studio)")
+                                        .font(.subheadline)
+                                }
+                                if !webtoon.categories.isEmpty {
+                                    Text("카테고리: \(webtoon.categories.joined(separator: ", "))")
+                                        .font(.subheadline)
+                                }
                             }
                         }
                     }
@@ -68,6 +78,7 @@ struct SearchView: View {
             .onChange(of: sortOption) { _ in
                 sort()
             }
+            .onAppear { sort() }
             .navigationTitle("웹툰 검색")
             .sheet(item: $editingWebtoon) { webtoon in
                 AddWebtoonView(store: store, webtoon: webtoon)
@@ -81,6 +92,8 @@ struct SearchView: View {
             store.webtoons.sort { $0.rating.rawValue > $1.rating.rawValue }
         case 1:
             store.webtoons.sort { $0.title < $1.title }
+        case 2:
+            store.webtoons.sort { $0.lastAccess > $1.lastAccess }
         default:
             break
         }

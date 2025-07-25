@@ -46,6 +46,7 @@ struct WebtoonDetailView: View {
         }
         .navigationTitle(webtoon.title)
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear { store.touch(webtoon) }
         .confirmationDialog("진행 상태", isPresented: $showMenu) {
             Button("안 읽음") { webtoon.lastRead = 0; update() }
             Button("읽는 중") { showPicker = true }

@@ -32,7 +32,10 @@ class WebtoonStore: ObservableObject {
     }
 
     func add(_ webtoon: Webtoon) {
-        webtoons.append(webtoon)
+        var new = webtoon
+        new.savedAt = Date()
+        new.lastAccess = new.savedAt
+        webtoons.append(new)
         insertLists(from: webtoon)
     }
 
@@ -40,6 +43,11 @@ class WebtoonStore: ObservableObject {
         guard let index = webtoons.firstIndex(where: { $0.id == webtoon.id }) else { return }
         webtoons[index] = webtoon
         insertLists(from: webtoon)
+    }
+
+    func touch(_ webtoon: Webtoon) {
+        guard let index = webtoons.firstIndex(where: { $0.id == webtoon.id }) else { return }
+        webtoons[index].lastAccess = Date()
     }
 
     func startAutoUpdate() {
