@@ -39,13 +39,16 @@ class WebtoonStore: ObservableObject {
         var new = webtoon
         new.savedAt = Date()
         new.lastAccess = new.savedAt
+        new.lastUpdated = new.savedAt
         webtoons.append(new)
         insertLists(from: webtoon)
     }
 
     func update(_ webtoon: Webtoon) {
         guard let index = webtoons.firstIndex(where: { $0.id == webtoon.id }) else { return }
-        webtoons[index] = webtoon
+        var updated = webtoon
+        updated.lastUpdated = Date()
+        webtoons[index] = updated
         insertLists(from: webtoon)
     }
 
@@ -179,6 +182,8 @@ class WebtoonStore: ObservableObject {
             return .light
         case "dark":
             return .dark
+        case "pink":
+            return .light
         default:
             return nil
         }
@@ -190,6 +195,8 @@ class WebtoonStore: ObservableObject {
             return Color(red: 0.6, green: 0.5, blue: 0.4)
         case "poster":
             return .orange
+        case "pink":
+            return .pink
         default:
             return .accentColor
         }

@@ -21,6 +21,40 @@ struct AddWebtoonView: View {
     @State private var imageData: Data?
     @State private var pickerItem: PhotosPickerItem?
 
+    @FocusState private var focusedField: Field?
+
+    private enum Field: Hashable {
+        case title
+        case writer(Int)
+        case category(Int)
+        case studio
+        case thumbnail
+        case episodes
+        case lastRead
+    }
+
+    private func next(after field: Field) -> Field? {
+        switch field {
+        case .title:
+            return writers.isEmpty ? .category(0) : .writer(0)
+        case .writer(let i):
+            if i + 1 < writers.count { return .writer(i + 1) }
+            if !categories.isEmpty { return .category(0) }
+            return .studio
+        case .category(let i):
+            if i + 1 < categories.count { return .category(i + 1) }
+            return .studio
+        case .studio:
+            return .thumbnail
+        case .thumbnail:
+            return .episodes
+        case .episodes:
+            return .lastRead
+        case .lastRead:
+            return nil
+        }
+    }
+
     init(store: WebtoonStore, webtoon: Webtoon? = nil) {
         self.store = store
         self.existing = webtoon
@@ -64,10 +98,16 @@ struct AddWebtoonView: View {
         Form {
             Section(header: Text("기본 정보")) {
                 TextField("제목", text: $title)
+                    .focused($focusedField, equals: .title)
+                    .onSubmit { focusedField = next(after: .title) }
                 ForEach(writers.indices, id: \.self) { i in
                     HStack {
                         TextField("작가", text: $writers[i])
-                            .onSubmit { if i == writers.count - 1 { writers.append("") } }
+                            .focused($focusedField, equals: .writer(i))
+                            .onSubmit {
+                                if i == writers.count - 1 { writers.append("") }
+                                focusedField = next(after: .writer(i))
+                            }
                         if writers.count > 1 {
                             Button(action: { writers.remove(at: i) }) {
                                 Image(systemName: "minus.circle")
@@ -78,7 +118,11 @@ struct AddWebtoonView: View {
                 ForEach(categories.indices, id: \.self) { i in
                     HStack {
                         TextField("장르", text: $categories[i])
-                            .onSubmit { if i == categories.count - 1 { categories.append("") } }
+                            .focused($focusedField, equals: .category(i))
+                            .onSubmit {
+                                if i == categories.count - 1 { categories.append("") }
+                                focusedField = next(after: .category(i))
+                            }
                         if categories.count > 1 {
                             Button(action: { categories.remove(at: i) }) {
                                 Image(systemName: "minus.circle")
@@ -87,7 +131,11 @@ struct AddWebtoonView: View {
                     }
                 }
                 TextField("스튜디오", text: $studio)
+                    .focused($focusedField, equals: .studio)
+                    .onSubmit { focusedField = next(after: .studio) }
                 TextField("썸네일 URL", text: $thumbnailURL)
+                    .focused($focusedField, equals: .thumbnail)
+                    .onSubmit { focusedField = next(after: .thumbnail) }
                 if let data = imageData, let ui = UIImage(data: data) {
                     Image(uiImage: ui).resizable().scaledToFit().frame(height: 100)
                 }
@@ -107,11 +155,15 @@ struct AddWebtoonView: View {
             Section(header: Text("회차")) {
                 TextField("총 회차", text: $episodes)
                     .keyboardType(.numberPad)
+                    .focused($focusedField, equals: .episodes)
+                    .onSubmit { focusedField = next(after: .episodes) }
                 TextField("마지막으로 읽은 회차", text: $lastRead)
                     .keyboardType(.numberPad)
+                    .focused($focusedField, equals: .lastRead)
                     .onChange(of: lastRead) { newValue in
                         if let e = Int(episodes), let l = Int(newValue), l > e { lastRead = episodes }
                     }
+                    .onSubmit { focusedField = next(after: .lastRead) }
             }
             Section(header: Text("리뷰")) {
                 TextEditor(text: $review)

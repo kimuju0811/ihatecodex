@@ -7,6 +7,13 @@ struct SearchView: View {
     @State private var editingWebtoon: Webtoon?
     @State private var isEditing = false
     @State private var editMode: EditMode = .inactive
+    private let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "ko_KR")
+        f.dateStyle = .long
+        f.timeStyle = .none
+        return f
+    }()
 
     var filtered: [Webtoon] {
         if searchText.isEmpty { return store.webtoons }
@@ -23,6 +30,9 @@ struct SearchView: View {
                     Button(isEditing ? "확인" : "편집") { isEditing.toggle() }
                         .font(.footnote)
                         .foregroundColor(.gray)
+                        .padding(8)
+                        .background(Color.white.opacity(0.001))
+                        .contentShape(Rectangle())
                 }
                 .padding([.horizontal])
                 .onChange(of: isEditing) { editMode = $0 ? .active : .inactive }
@@ -30,7 +40,7 @@ struct SearchView: View {
             Picker("정렬", selection: $sortOption) {
                 Text("평가 순").tag(0)
                 Text("제목 순").tag(1)
-                Text("최근 클릭 순").tag(2)
+                Text("마지막 업데이트 순").tag(2)
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding([.horizontal])
@@ -67,14 +77,23 @@ struct SearchView: View {
                                     Text("장르: \(webtoon.categories.joined(separator: ", "))")
                                         .font(.subheadline)
                                 }
+                                Text("마지막 업데이트: \(dateFormatter.string(from: webtoon.lastUpdated))")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
                             }
                         }
                     }
                     .swipeActions(edge: .trailing) {
-                        Button(role: .destructive) { delete(webtoon) } label: { Label("삭제", systemImage: "trash") }
+                        Button(role: .destructive) { delete(webtoon) } label: {
+                            Label("삭제", systemImage: "trash")
+                        }
+                        .tint(.red)
                     }
                     .swipeActions(edge: .leading) {
-                        Button { editingWebtoon = webtoon } label: { Label("편집", systemImage: "pencil") }
+                        Button { editingWebtoon = webtoon } label: {
+                            Label("편집", systemImage: "pencil")
+                        }
+                        .tint(.blue)
                     }
                     }
                     .onDelete { offsets in
@@ -102,7 +121,7 @@ struct SearchView: View {
         case 1:
             store.webtoons.sort { $0.title < $1.title }
         case 2:
-            store.webtoons.sort { $0.lastAccess > $1.lastAccess }
+            store.webtoons.sort { $0.lastUpdated > $1.lastUpdated }
         default:
             break
         }

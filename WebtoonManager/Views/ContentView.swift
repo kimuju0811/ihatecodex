@@ -24,6 +24,7 @@ struct ContentView: View {
         }
         .preferredColorScheme(store.colorScheme)
         .tint(store.tintColor)
+        .dismissKeyboardOnTap()
     }
 }
 
