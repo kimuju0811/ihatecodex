@@ -2,7 +2,9 @@ import SwiftUI
 
 struct KeyboardDismissModifier: ViewModifier {
     func body(content: Content) -> some View {
-        content.background(DismissGestureView())
+        content
+            .background(Color.clear.ignoresSafeArea())
+            .background(DismissGestureView())
     }
 }
 
@@ -11,13 +13,17 @@ private struct DismissGestureView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)
+        view.backgroundColor = .clear
         view.isUserInteractionEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
+
         let recognizer = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.tap))
         recognizer.cancelsTouchesInView = false
         recognizer.delaysTouchesBegan = false
         recognizer.delaysTouchesEnded = false
+        recognizer.delegate = context.coordinator
         view.addGestureRecognizer(recognizer)
+
         return view
     }
 
@@ -31,9 +37,18 @@ private struct DismissGestureView: UIViewRepresentable {
         ])
     }
 
-    class Coordinator {
+    class Coordinator: NSObject, UIGestureRecognizerDelegate {
         @objc func tap() {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+
+        func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+            var view = touch.view
+            while let current = view {
+                if current is UITextField || current is UITextView { return false }
+                view = current.superview
+            }
+            return true
         }
     }
 }
