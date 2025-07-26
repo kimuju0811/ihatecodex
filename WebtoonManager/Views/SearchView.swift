@@ -71,10 +71,16 @@ struct SearchView: View {
                         }
                     }
                     .swipeActions(edge: .trailing) {
-                        Button(role: .destructive) { delete(webtoon) } label: { Label("삭제", systemImage: "trash") }
+                        Button(role: .destructive) { delete(webtoon) } label: {
+                            Label("삭제", systemImage: "trash")
+                        }
+                        .tint(.red)
                     }
                     .swipeActions(edge: .leading) {
-                        Button { editingWebtoon = webtoon } label: { Label("편집", systemImage: "pencil") }
+                        Button { editingWebtoon = webtoon } label: {
+                            Label("편집", systemImage: "pencil")
+                        }
+                        .tint(.blue)
                     }
                     }
                     .onDelete { offsets in

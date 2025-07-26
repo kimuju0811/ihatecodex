@@ -22,14 +22,15 @@ struct SettingsView: View {
                     Text("포스터 뷰").tag("poster")
                     Text("핑크").tag("pink")
                 }
+                .tint(store.tintColor)
 
                 NavigationLink("카테고리 관리") {
                     CategoryManagementView(store: store)
                 }
             }
             .navigationTitle("기타")
+            .tint(store.tintColor)
         }
-        .tint(store.tintColor)
     }
 }
 
