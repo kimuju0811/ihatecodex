@@ -4,7 +4,7 @@ struct KeyboardDismissModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .background(Color.white.opacity(0.001).ignoresSafeArea())
-            .background(DismissGestureView())
+            .overlay(DismissGestureView())
     }
 }
 
