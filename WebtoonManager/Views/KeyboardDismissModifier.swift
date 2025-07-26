@@ -11,6 +11,8 @@ private struct DismissGestureView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)
+        view.isUserInteractionEnabled = true
+        view.translatesAutoresizingMaskIntoConstraints = false
         let recognizer = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.tap))
         recognizer.cancelsTouchesInView = false
         recognizer.delaysTouchesBegan = false
@@ -19,7 +21,15 @@ private struct DismissGestureView: UIViewRepresentable {
         return view
     }
 
-    func updateUIView(_ uiView: UIView, context: Context) {}
+    func updateUIView(_ uiView: UIView, context: Context) {
+        guard let superview = uiView.superview, uiView.constraints.isEmpty else { return }
+        NSLayoutConstraint.activate([
+            uiView.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
+            uiView.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
+            uiView.topAnchor.constraint(equalTo: superview.topAnchor),
+            uiView.bottomAnchor.constraint(equalTo: superview.bottomAnchor)
+        ])
+    }
 
     class Coordinator {
         @objc func tap() {
