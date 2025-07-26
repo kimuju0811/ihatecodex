@@ -6,6 +6,13 @@ struct WebtoonDetailView: View {
     @State private var showMenu = false
     @State private var showPicker = false
     @AppStorage("selectedTab") private var selectedTab: Int = 0
+    private let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "ko_KR")
+        f.dateStyle = .long
+        f.timeStyle = .none
+        return f
+    }()
 
     private var progress: Double {
         guard webtoon.episodes > 0 else { return 0 }
@@ -42,11 +49,18 @@ struct WebtoonDetailView: View {
                 Text("연재 상태: \(webtoon.status.rawValue)")
                 Text("평가: \(webtoon.rating.rawValue)")
                 TextEditor(text: $webtoon.review).frame(minHeight: 100)
-                Button("수정") {
-                    store.beginEditing(webtoon)
-                    selectedTab = 2
+                ZStack {
+                    Text("마지막 업데이트: \(dateFormatter.string(from: webtoon.lastUpdated))")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                    HStack {
+                        Spacer()
+                        Button("수정") {
+                            store.beginEditing(webtoon)
+                            selectedTab = 2
+                        }
+                    }
                 }
-                .frame(maxWidth: .infinity, alignment: .trailing)
             }
             .padding()
         }

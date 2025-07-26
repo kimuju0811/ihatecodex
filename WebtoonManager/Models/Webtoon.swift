@@ -41,12 +41,13 @@ struct Webtoon: Identifiable, Codable, Equatable {
     var thumbnailData: Data?
     var savedAt: Date = Date()
     var lastAccess: Date = Date()
+    var lastUpdated: Date = Date()
 
     enum CodingKeys: String, CodingKey {
-        case id, title, writers, studio, categories, status, rating, episodes, lastRead, review, thumbnailURL, thumbnailData, savedAt, lastAccess
+        case id, title, writers, studio, categories, status, rating, episodes, lastRead, review, thumbnailURL, thumbnailData, savedAt, lastAccess, lastUpdated
     }
 
-    init(id: UUID = UUID(), title: String, writers: [String], studio: String, categories: [String], status: WebtoonStatus, rating: WebtoonRating, episodes: Int, lastRead: Int, review: String, thumbnailURL: String, thumbnailData: Data?, savedAt: Date = Date(), lastAccess: Date = Date()) {
+    init(id: UUID = UUID(), title: String, writers: [String], studio: String, categories: [String], status: WebtoonStatus, rating: WebtoonRating, episodes: Int, lastRead: Int, review: String, thumbnailURL: String, thumbnailData: Data?, savedAt: Date = Date(), lastAccess: Date = Date(), lastUpdated: Date = Date()) {
         self.id = id
         self.title = title
         self.writers = writers
@@ -61,6 +62,7 @@ struct Webtoon: Identifiable, Codable, Equatable {
         self.thumbnailData = thumbnailData
         self.savedAt = savedAt
         self.lastAccess = lastAccess
+        self.lastUpdated = lastUpdated
     }
 
     init(from decoder: Decoder) throws {
@@ -79,6 +81,7 @@ struct Webtoon: Identifiable, Codable, Equatable {
         thumbnailData = try container.decodeIfPresent(Data.self, forKey: .thumbnailData)
         savedAt = try container.decodeIfPresent(Date.self, forKey: .savedAt) ?? Date()
         lastAccess = try container.decodeIfPresent(Date.self, forKey: .lastAccess) ?? savedAt
+        lastUpdated = try container.decodeIfPresent(Date.self, forKey: .lastUpdated) ?? savedAt
     }
 
     func encode(to encoder: Encoder) throws {
@@ -97,5 +100,6 @@ struct Webtoon: Identifiable, Codable, Equatable {
         try container.encodeIfPresent(thumbnailData, forKey: .thumbnailData)
         try container.encode(savedAt, forKey: .savedAt)
         try container.encode(lastAccess, forKey: .lastAccess)
+        try container.encode(lastUpdated, forKey: .lastUpdated)
     }
 }

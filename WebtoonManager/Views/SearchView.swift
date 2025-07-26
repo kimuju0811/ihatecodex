@@ -7,6 +7,13 @@ struct SearchView: View {
     @State private var editingWebtoon: Webtoon?
     @State private var isEditing = false
     @State private var editMode: EditMode = .inactive
+    private let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "ko_KR")
+        f.dateStyle = .long
+        f.timeStyle = .none
+        return f
+    }()
 
     var filtered: [Webtoon] {
         if searchText.isEmpty { return store.webtoons }
@@ -30,7 +37,7 @@ struct SearchView: View {
             Picker("정렬", selection: $sortOption) {
                 Text("평가 순").tag(0)
                 Text("제목 순").tag(1)
-                Text("최근 클릭 순").tag(2)
+                Text("마지막 업데이트 순").tag(2)
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding([.horizontal])
@@ -67,6 +74,9 @@ struct SearchView: View {
                                     Text("장르: \(webtoon.categories.joined(separator: ", "))")
                                         .font(.subheadline)
                                 }
+                                Text("마지막 업데이트: \(dateFormatter.string(from: webtoon.lastUpdated))")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
                             }
                         }
                     }
@@ -108,7 +118,7 @@ struct SearchView: View {
         case 1:
             store.webtoons.sort { $0.title < $1.title }
         case 2:
-            store.webtoons.sort { $0.lastAccess > $1.lastAccess }
+            store.webtoons.sort { $0.lastUpdated > $1.lastUpdated }
         default:
             break
         }

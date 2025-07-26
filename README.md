@@ -13,7 +13,7 @@ Copy `WebtoonManager/Info.plist` into your project or make sure your own Info.pl
 - Automatic API updates can run while the app is open when enabled in Settings.
 - Home page displays your own `AppLogo` image scaled to about 390pt width. Add any square asset named `AppLogo` and it will be resized automatically.
 - App remembers the last selected tab and saved webtoons across launches.
-- Edit or delete saved webtoons in the Search tab via swipe actions. Sorting options include rating, title or most recent click.
+- Edit or delete saved webtoons in the Search tab via swipe actions. Sorting options include rating, title or most recent update.
 - Add multiple writers and genres, numeric episode fields and local image selection when creating or editing webtoons.
 - Manage global writer, studio and genre lists under Settings → 카테고리 관리.
 - Choose between light, dark, sepia, poster or pink themes in Settings; the selection applies immediately.
