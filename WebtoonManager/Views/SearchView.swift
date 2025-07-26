@@ -30,6 +30,9 @@ struct SearchView: View {
                     Button(isEditing ? "확인" : "편집") { isEditing.toggle() }
                         .font(.footnote)
                         .foregroundColor(.gray)
+                        .padding(8)
+                        .background(Color.white.opacity(0.001))
+                        .contentShape(Rectangle())
                 }
                 .padding([.horizontal])
                 .onChange(of: isEditing) { editMode = $0 ? .active : .inactive }

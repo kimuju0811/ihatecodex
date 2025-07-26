@@ -3,7 +3,7 @@ import SwiftUI
 struct KeyboardDismissModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .background(Color.clear.ignoresSafeArea())
+            .background(Color.white.opacity(0.001).ignoresSafeArea())
             .background(DismissGestureView())
     }
 }
@@ -13,7 +13,7 @@ private struct DismissGestureView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor(white: 1, alpha: 0.001)
         view.isUserInteractionEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
 
