@@ -4,7 +4,7 @@ struct KeyboardDismissModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .background(Color.white.opacity(0.001).ignoresSafeArea())
-            .overlay(DismissGestureView())
+            .background(DismissGestureView())
     }
 }
 
@@ -51,9 +51,6 @@ private struct DismissGestureView: UIViewRepresentable {
             return true
         }
 
-        func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-            true
-        }
     }
 }
 
