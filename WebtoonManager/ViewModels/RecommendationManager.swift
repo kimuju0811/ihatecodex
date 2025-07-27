@@ -34,7 +34,7 @@ class RecommendationManager: ObservableObject {
             w.rating != .poor && !isRecommendedRecently(id: w.id, now: now)
         }
         let selected = Array(candidates.shuffled().prefix(3))
-        recommendedIDs = selected.map(\.$id)
+        recommendedIDs = selected.map(\.id)
         lastRecommendedTime = now.timeIntervalSince1970
         saveIDs()
         saveHistory(with: selected, date: now)
