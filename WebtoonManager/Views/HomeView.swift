@@ -12,7 +12,7 @@ struct HomeView: View {
                 .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                 .padding()
 
-            Text("WebOrg_v0.1.2")
+            Text("WebOrg_v0.1.3")
                 .font(.caption)
                 .foregroundColor(.secondary)
 
