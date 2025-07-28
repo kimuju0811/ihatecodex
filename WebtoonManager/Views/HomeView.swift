@@ -13,7 +13,7 @@ struct HomeView: View {
                         .scaledToFit()
                         .frame(maxWidth: geo.size.width * 0.8)
 
-                    Text("WebOrg_v0.2.2")
+                    Text("WebOrg_v0.2.3")
                         .font(.caption)
                         .foregroundColor(.secondary)
 
