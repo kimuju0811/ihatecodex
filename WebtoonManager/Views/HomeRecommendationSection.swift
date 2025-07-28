@@ -12,7 +12,7 @@ struct HomeRecommendationSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("수요일마다 추천")
-                .font(.title3)
+                .font(.headline)
                 .bold()
 
             HStack(spacing: 12) {
@@ -39,7 +39,7 @@ struct RecommendationCardView: View {
                     .bold()
                     .lineLimit(1)
                 Text(webtoon.writers.joined(separator: ", "))
-                    .font(.caption)
+                    .font(.caption2)
                     .foregroundColor(.secondary)
                     .lineLimit(1)
             }
