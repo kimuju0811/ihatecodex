@@ -13,6 +13,7 @@ enum WebtoonRating: String, CaseIterable, Identifiable, Codable {
     case good = "수작"
     case average = "보통"
     case poor = "졸작"
+    case pending = "판단전"
 
     var id: String { rawValue }
 
@@ -22,6 +23,7 @@ enum WebtoonRating: String, CaseIterable, Identifiable, Codable {
         case .good: return 3
         case .average: return 2
         case .poor: return 1
+        case .pending: return 0
         }
     }
 }

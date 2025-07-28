@@ -5,28 +5,38 @@ struct HomeView: View {
     @State private var searchText = ""
 
     var body: some View {
-        VStack {
-            Image("AppLogo")
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
-                .padding()
+        NavigationStack {
+            GeometryReader { geo in
+                VStack(spacing: 16) {
+                    Image("AppLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: geo.size.width * 0.8)
 
-            Text("WebOrg_v0.1.2")
-                .font(.caption)
-                .foregroundColor(.secondary)
+                    Text("WebOrg_v0.2.3")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
 
-            TextField("검색", text: $searchText)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding([.horizontal])
-                .onChange(of: searchText) { _ in
-                    // Could update search results in real time
+                    Spacer().frame(height: geo.size.height / 3)
+
+                    TextField("검색", text: $searchText)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                        .onChange(of: searchText) { _ in
+                            // Could update search results in real time
+                        }
+
+                    HomeRecommendationSection(store: store)
+                        .padding(.horizontal)
+
+                    Spacer()
                 }
-
-            Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            }
+            .dismissKeyboardOnTap()
+            .background(Color(.systemBackground))
+            .navigationBarHidden(true)
         }
-        .dismissKeyboardOnTap()
-        .background(Color(.systemBackground))
     }
 }
 
